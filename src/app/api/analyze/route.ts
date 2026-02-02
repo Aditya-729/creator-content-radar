@@ -137,8 +137,14 @@ export async function POST(request: NextRequest) {
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
+      let isClosed = false;
       const send = (data: Record<string, unknown>) => {
         controller.enqueue(encoder.encode(`${JSON.stringify(data)}\n`));
+      };
+      const safeClose = () => {
+        if (isClosed) return;
+        isClosed = true;
+        controller.close();
       };
 
       const runStage = async <T,>(
@@ -159,7 +165,7 @@ export async function POST(request: NextRequest) {
           const message =
             error instanceof Error ? error.message : "Unknown error";
           send({ type: "error", stage: stageNames[stageKey], message });
-          controller.close();
+          safeClose();
           throw error;
         }
       };
@@ -263,9 +269,9 @@ export async function POST(request: NextRequest) {
           type: "log",
           message: "Analysis complete. Ready for next actions.",
         });
-        controller.close();
+        safeClose();
       } catch (error) {
-        controller.close();
+        safeClose();
       }
     },
   });
