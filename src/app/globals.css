@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  background: #f5f7ff;
+  color: #101427;
+}
+
+.bg-blobs::before,
+.bg-blobs::after {
+  content: "";
+  position: absolute;
+  inset: -20% -10% auto auto;
+  width: 45rem;
+  height: 45rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(94, 231, 255, 0.35), transparent 60%);
+  filter: blur(10px);
+  z-index: 0;
+  animation: blob-float 18s ease-in-out infinite;
+}
+
+.bg-blobs::after {
+  inset: auto auto -30% -15%;
+  background: radial-gradient(circle, rgba(177, 140, 255, 0.35), transparent 65%);
+  animation-delay: -6s;
+}
+
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  50% {
+    transform: translateY(-24px) translateX(18px);
+  }
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 20px 45px -28px rgba(15, 18, 32, 0.45);
+  backdrop-filter: blur(18px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 25px 60px -32px rgba(15, 18, 32, 0.45);
+}
+
+.active-glow {
+  position: relative;
+}
+
+.active-glow::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background: radial-gradient(circle, rgba(94, 231, 255, 0.25), transparent 70%);
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(94, 231, 255, 0.65), rgba(177, 140, 255, 0.45), rgba(92, 240, 183, 0.55));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.shimmer {
+  background-size: 200% 200%;
+  animation: shimmer 10s ease-in-out infinite;
+}
+
+.animated-divider {
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(94, 231, 255, 0.1), rgba(94, 231, 255, 0.8), rgba(177, 140, 255, 0.8), rgba(92, 240, 183, 0.8), rgba(94, 231, 255, 0.1));
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite;
+  border-radius: 999px;
+  opacity: 0.8;
+}
